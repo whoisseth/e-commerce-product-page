@@ -1,15 +1,25 @@
 /** @format */
 
-import Image from "next/image";
+import { LeftMainDiv } from "./components/LeftMainDiv";
 import Navbar from "./components/Navbar";
-
+import { RightDiv } from "./components/RightDiv";
 
 export default function Home() {
   return (
     <div className="">
-      <main className=" px-2 max-w-5xl mx-auto">
+      <main className=" flex flex-col gap-10 px-2 max-w-5xl mx-auto">
         <Navbar />
+        <div
+          className="flex gap-10
+        "
+        >
+          {/* left  */}
+          <LeftMainDiv />
+          {/* right */}
+          <RightDiv />
+        </div>
       </main>
     </div>
   );
 }
+

@@ -12,6 +12,8 @@ import productImage1 from "@/assets/images/image-product-1.jpg";
 import { LuMenu } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useAtom } from "jotai";
+import { productAtom } from "../atom";
 
 type Props = {};
 const links = [
@@ -38,6 +40,7 @@ const links = [
 ];
 
 export default function Navbar({}: Props) {
+  const [product, setProduct] = useAtom(productAtom);
   const [animationParent] = useAutoAnimate();
 
   const [isCart, setCart] = useState(false);
@@ -86,6 +89,12 @@ export default function Navbar({}: Props) {
             onClick={toggleCartUi}
             className="text-3xl cursor-pointer"
           />
+          {product ? (
+            <div className="bg-orange-500 text-white h-5 w-4 text-xs rounded-full flex items-center justify-center absolute top-[-5px] right-0">
+              {" "}
+              {product?.productCount}{" "}
+            </div>
+          ) : null}
           {isCart && <CartUi />}
         </div>
 
@@ -101,31 +110,46 @@ export default function Navbar({}: Props) {
 }
 
 function CartUi() {
+  const [product, setProduct] = useAtom(productAtom);
+
+  // product
   return (
     <div className="absolute top-12 right-[-50px] border w-[350px]  max-w-[350px] p-3 rounded-md shadow-md  flex flex-col gap-3  bg-white ">
-      <p className="text-xl font-bold">Cart</p>
+      {product ? (
+        <>
+          <p className="text-xl font-bold">Cart</p>
 
-      <div className="w-full bg-gray-300 h-[1px]" />
-      <section className="flex justify-between gap-3">
-        {/* product image */}
-        <Image
-          className="h-10 rounded w-auto"
-          src={productImage1}
-          alt="prodcut-img"
-        />
-        {/* procut details */}
-        <div className=" text-sm">
-          <p className="text-gray-400">Autumn Limited Edition.</p>
-          <p>
-            <span className="text-gray-400"> $125.00 x 4 </span>{" "}
-            <span className="font-bold"> $500.00</span>{" "}
-          </p>
-        </div>
-        {/* delete icon */}
-        <div>
-          <MdDelete className="text-3xl text-gray-400" />
-        </div>
-      </section>
+          <div className="w-full bg-gray-300 h-[1px]" />
+          <section className="flex justify-between gap-3">
+            {/* product image */}
+            <Image
+              className="h-10 rounded w-auto"
+              src={productImage1}
+              alt="prodcut-img"
+            />
+            {/* procut details */}
+            <div className=" text-sm">
+              <p className="text-gray-400">{product?.procutName}</p>
+              <p>
+                <span className="text-gray-400">
+                  {" "}
+                  ${product?.productPrice} x {product?.productCount}{" "}
+                </span>{" "}
+                <span className="font-bold">
+                  {" "}
+                  $ {product?.productPrice * product?.productCount}.00
+                </span>{" "}
+              </p>
+            </div>
+            {/* delete icon */}
+            <button onClick={() => setProduct(null)}>
+              <MdDelete className="text-3xl text-gray-400" />
+            </button>
+          </section>
+        </>
+      ) : (
+        <div className="text-gray-300 text-sm">You cart is empty</div>
+      )}
 
       <button className="w-full bg-orange-400 text-white py-1.5 rounded-md">
         Checkout
