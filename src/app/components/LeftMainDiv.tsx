@@ -25,8 +25,32 @@ export function LeftMainDiv() {
 
   const [mainProductImage, setMainProcutImage] = useState(images[0]);
 
+  // currentImageIndex ==3
+  // imges.length ==4
+
   function nextImage() {
-    if (currentImageIndex < 0) setMainProcutImage(images[0 + 1]);
+    // if (images.length > 5)
+    // 3+1 > 4
+    if (currentImageIndex + 1 < images.length) {
+      setCurrentImageIndex(currentImageIndex + 1);
+      setMainProcutImage(images[currentImageIndex + 1]);
+    } else {
+      return null;
+    }
+  }
+
+  function preImage() {
+    // if (images.length > 5)
+    setCurrentImageIndex(currentImageIndex - 1);
+    // 3-1 > 4
+
+    // 0-1  4
+    // 3-1 <4 &&  3>0)
+    if (currentImageIndex - 1 < images.length && currentImageIndex > 0) {
+      setMainProcutImage(images[currentImageIndex - 1]);
+    } else {
+      return null;
+    }
   }
 
   return (
@@ -66,16 +90,32 @@ export function LeftMainDiv() {
           </div>
           <div className=" relative">
             {/* pre btn */}
-            <div className="bg-white h-10 w-10 flex items-center justify-center  rounded-full absolute top-1/2 left-[-25px] cursor-pointer">
+            <button
+              disabled={currentImageIndex === 0}
+              onClick={preImage}
+              className={cn(
+                "bg-white h-10 w-10 flex items-center justify-center  rounded-full absolute top-1/2 left-[-25px] ",
+                {
+                  "bg-slate-400 ": currentImageIndex === 0
+                }
+              )}
+            >
               <FaAngleLeft className="text-2xl  " />
-            </div>
+            </button>
             {/* next btn */}
-            <div
+            <button
+              disabled={currentImageIndex == images.length - 1}
               onClick={nextImage}
-              className="bg-white h-10 w-10 flex items-center justify-center  rounded-full absolute top-1/2 right-[-25px] cursor-pointer"
+              //   currentImageIndex
+              className={cn(
+                "bg-white h-10 w-10 flex items-center justify-center  rounded-full absolute top-1/2 right-[-25px] ",
+                {
+                  "bg-slate-400 ": currentImageIndex == images.length - 1
+                }
+              )}
             >
               <FaAngleRight className="text-2xl  " />
-            </div>
+            </button>
 
             <Image
               className="w-[384px] h-[384px] rounded-xl "
