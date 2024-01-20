@@ -10,7 +10,7 @@ export default function Home() {
       <main className=" flex flex-col gap-10 px-2 max-w-5xl mx-auto">
         <Navbar />
         <div
-          className="flex gap-10
+          className="flex flex-col md:flex-row items-center  px-3  gap-10 pb-10
         "
         >
           {/* left  */}
@@ -22,4 +22,3 @@ export default function Home() {
     </div>
   );
 }
-

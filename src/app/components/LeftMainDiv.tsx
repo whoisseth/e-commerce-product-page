@@ -54,14 +54,49 @@ export function LeftMainDiv() {
   }
 
   return (
-    <div ref={animationParent} className="w-1/2 flex  gap-4 flex-col">
+    <div ref={animationParent} className=" md:w-1/2 flex  gap-4 flex-col">
       <Image
         onClick={() => setModal(true)}
-        className="w-[384px] h-[384px] rounded-xl cursor-pointer "
+        className="w-[384px] h-[384px] hidden md:flex rounded-xl cursor-pointer "
         src={mainProductImage}
         alt="procut-img"
       />
-      <div className="flex gap-2  w-[384px] justify-between">
+
+      <div className="md:hidden relative w-[384px]">
+        <Image
+          // onClick={() => setModal(true)}
+          className="w-[384px] h-[384px]   rounded-xl cursor-pointer "
+          src={mainProductImage}
+          alt="procut-img"
+        />
+        <button
+          disabled={currentImageIndex === 0}
+          onClick={preImage}
+          className={cn(
+            "bg-white h-10 w-10 flex items-center justify-center  rounded-full absolute top-1/2 left-[-25px] ",
+            {
+              "bg-slate-400 ": currentImageIndex === 0
+            }
+          )}
+        >
+          <FaAngleLeft className="text-2xl  " />
+        </button>
+        {/* next btn */}
+        <button
+          disabled={currentImageIndex == images.length - 1}
+          onClick={nextImage}
+          //   currentImageIndex
+          className={cn(
+            "bg-white h-10 w-10 flex items-center justify-center  rounded-full absolute top-1/2 right-[-25px] ",
+            {
+              "bg-slate-400 ": currentImageIndex == images.length - 1
+            }
+          )}
+        >
+          <FaAngleRight className="text-2xl  " />
+        </button>
+      </div>
+      <div className="md:flex gap-2 hidden    w-[384px] justify-between">
         {images.map((d, i) => (
           <div
             onClick={() => setMainProcutImage(d)}
